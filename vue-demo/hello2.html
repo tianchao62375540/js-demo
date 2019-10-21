@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>hello1</title>
+    <style type="text/css">
+        div#box{
+            width: 100px;
+            height: 100px;
+            color: darkgrey;
+        }
+        div#box1{
+            width: 100px;
+            height: 100px;
+            color: darkgrey;
+        }
+        .red{
+            background-color: red;
+        }
+        .blue{
+            background-color: blue;
+        }
+
+    </style>
+</head>
+<body>
+<div id="app">
+    <button @click="color='red'">红色</button>
+    <button @click="color='blue'">绿色</button>
+    <div id="box" :class="color">
+        我是盒子
+        我是盒子
+    </div>
+    <hr>
+    <button @click="isRed = !isRed">点我切换</button>
+    <div id="box1" :class="{red:isRed,blue:!isRed}">
+        我是盒子
+        我是盒子
+    </div>
+    <hr>
+    <!-- 计算属性 -->
+    <h1>
+        您的生日是{{birth}}
+    </h1>
+    <button @click="update">点我换时间</button>
+    <hr>
+    <!-- watch -->
+    <input type="text" v-model="num"/>
+    <h3>num: {{num}}</h3>
+</div>
+
+<script src="node_modules/vue/dist/vue.js"></script>
+<script>
+    const app = new Vue({
+        el:"#app",   //element ， vue所作用的标签
+        data:{
+            color:"red",
+            isRed:true,
+            birthday:1529032123201, // 毫秒值
+            num:1,
+            person:{
+                name:"Jack",
+                age:15
+            }
+        },
+        methods:{
+            update:function(){
+                this.birthday = new Date().getTime();
+            }
+        },
+        computed:{
+            birth(){
+                const day = new Date(this.birthday);
+                return day.getFullYear() + "年" + day.getMonth() + "月" + day.getDay() + "日";
+            }
+        },
+        <!-- 浅监控 -->
+        watch:{
+            num(newValue,oldValue){
+                console.log(arg1);
+                console.log(arg2);
+            },
+            person:{
+              deep:true,
+              handler(val){
+                  console.log(val.name);
+              }
+            }
+        }
+    });
+</script>
+</body>
+</html>

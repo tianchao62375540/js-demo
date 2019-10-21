@@ -7,12 +7,49 @@
 <body>
 <div id="app">
     <h1>
+        <button @click="add">点我</button>
         <input type="text" v-model="num"/>
         <button @click="num++">+</button>
-
+        <span v-text="name"></span>非常帅 <br>
+        <span v-html="name"></span>非常帅 <br>
         {{name}}非常帅 <br>
         {{num}}位女神为其着迷
     </h1>
+    <hr>
+    <h1>开设以下课程：</h1>
+    <input type="checkbox" v-model="lessons" value="Java"/>Java<br>
+    <input type="checkbox" v-model="lessons" value="JavaScript">JavaScript<br>
+    <input type="checkbox" v-model="lessons" value="Mysql">Mysql<br>
+    <h2>
+        您已经购买下列课程{{lessons.join(",")}}
+    </h2>
+    <div style="width: 100px;height: 100px;background-color: bisque" @click.stop="print('div')">
+        div
+        <button @click.stop="print('button')">点我啊</button>
+    </div>
+    <hr>
+    <ul>
+        <li v-for="user in users">
+            {{user.name}}--------{{user.gender}}-------{{user.age}}
+        </li>
+
+    </ul>
+    <hr>
+    <ul>
+        <li v-for="(v,k) in users[0]">
+            {{k+"===="+v}}
+        </li>
+    </ul>
+    <hr>
+    <button @click="bo = !bo" >点击切换</button>
+    <div v-if="bo">
+        你好
+    </div>
+    <div v-show="bo">
+        呵呵
+    </div>
+    <hr>
+
 </div>
 
 <script src="node_modules/vue/dist/vue.js"></script>
@@ -20,8 +57,35 @@
     const app = new Vue({
         el:"#app",//element ， vue所作用的标签
         data:{
-            name: "虎哥",
-            num: 1
+            name: "<font color='red'>虎哥哥</font>",
+            num: 1,
+            lessons:[],
+            users:[
+                {name:'柳岩', gender:'女', age: 21},
+                {name:'虎哥', gender:'男', age: 30},
+                {name:'范冰冰', gender:'女', age: 24},
+                {name:'刘亦菲', gender:'女', age: 18},
+                {name:'古力娜扎', gender:'女', age: 25}
+            ],
+            bo:true
+        },
+        methods:{
+            add:function(){
+                this.num++;
+            },
+            print(name){
+                console.log(name);
+            }
+        },
+        created:function () {
+            //向后台发送ajax请求，完成对data的初始化。。。
+            /*setTimeout(()=>{
+                this.name = "created";
+                },5000)*/
+            const obj = this;
+            setTimeout(function () {
+                obj.name = "created";
+            },1000)
         }
     });
 </script>
